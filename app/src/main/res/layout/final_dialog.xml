@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="25dp"
+                android:layout_centerHorizontal="true"
+                >
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/headerBarImage"
+            android:background="@drawable/circularimage"
+            android:src="@drawable/tom_cruise"
+            android:scaleType="centerCrop"
+            android:padding="20dp"
+            />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.91"
+                    android:textColor="#000"
+                    android:background="#ffcd2e"
+                    android:rotation="-30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="James Smith"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="XYZ-123"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"
+           />
+
+
+
+
+
+        <TextView
+            android:id="@+id/searchBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="Pickup Location"
+            android:layout_marginStart="5dp"
+            android:drawableLeft="@drawable/circlebtn"
+            android:background="#ffffff"
+            android:textSize="18dp"
+            android:gravity="center"
+           />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:gravity="start"
+            android:layout_gravity="center"
+            android:layout_marginStart="22dp"
+            android:layout_marginBottom="2dp"
+            android:text="K 185/3 Karan Palace"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/searchBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:text="Drop Location"
+            android:drawableLeft="@drawable/locationdrop"
+            android:background="#ffffff"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:gravity="start"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="My Home"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e7e5e5"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="Ride Closed"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="₹ 250.65"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000000" />
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

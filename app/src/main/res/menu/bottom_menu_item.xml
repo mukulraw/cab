@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_profile"
+        android:title="@string/menu_profile"
+        android:icon="@drawable/user_32_color"
+        />
+
+    <item
+        android:id="@+id/menu_support"
+        android:title="@string/menu_support"
+        android:icon="@drawable/message_32_color"
+        />
+
+    <item
+        android:id="@+id/menu_bookRide"
+        android:title="@string/menu_bookride"
+        android:icon="@drawable/location_32_color" />
+
+    <item
+        android:id="@+id/menu_rideHistory"
+        android:title="@string/menu_rideHistory"
+        android:icon="@drawable/history_32_color" />
+
+    <item
+        android:id="@+id/menu_notification"
+        android:title="@string/menu_notification"
+        android:icon="@drawable/notification_32_color" />
+
+
+
+</menu>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.faizan.voxox.RateDriver">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            >
+
+        </fragment>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp">
+
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                >
+
+                <ImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/headerBarImage"
+                    android:background="@drawable/circularimage"
+                    android:src="@drawable/tom_cruise"
+                    android:scaleType="centerCrop"
+                    android:padding="20dp"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.91"
+                    android:textColor="#ffffff"
+                    android:background="#000"
+                    android:rotation="-30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    />
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="James Smith"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DL3S CC 4543"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="₹ 250.65"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="#000000" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="Rate Your Trip"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:textColor="#535252" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating"
+            android:layout_gravity="center"
+            />
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button"
+            android:text="Submit Rating"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

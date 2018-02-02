@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img"
+    tools:context="com.example.faizan.voxox.loginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/cab_logo" />
+
+
+        <EditText
+            android:id="@+id/phn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="Enter Registered Number"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textColor="#fff"
+            android:textColorHint="#c2c2c2" />
+
+<!--        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#c2c2c2" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="#fff"
+            android:textColorHint="#c2c2c2" />-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#c2c2c2" />
+
+<!--        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Forgot Password?"
+            android:textColor="#ffcd2e"
+            android:textStyle="bold" />-->
+
+        <Button
+            android:id="@+id/loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Login"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="OR"
+            android:textColor="#fff" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="18dp"
+                android:layout_weight="1"
+                android:gravity="end">
+
+                <ImageView
+                    android:id="@+id/fb"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/white_background"
+                    android:src="@drawable/fbbutton" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="18dp"
+                android:layout_weight="1"
+                android:gravity="start">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/white_background"
+                    android:src="@drawable/gbutton" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Don't have an account?  "
+                android:textColor="#ffcd2e" />
+
+            <TextView
+                android:id="@+id/signupText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="#ffcd2e"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

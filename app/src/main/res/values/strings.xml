@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">VOXOX</string>
+
+    <string name="google_maps_api_key">AIzaSyCBX-7U893gKlODl9XZIuNHQxj6SnfO3kY</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_support">Support</string>
+    <string name="menu_bookride">Book Ride</string>
+    <string name="menu_rideHistory">Ride History</string>
+    <string name="menu_notification">Notification</string>
+
+    <string name="facebook_app_id">1631521753579792</string>
+    <string name="fb_login_protocol_scheme">fb1631521753579792</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+
+</resources>

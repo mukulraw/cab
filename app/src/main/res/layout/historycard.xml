@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    app:contentPadding="5dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:weightSum="4"
+                android:layout_marginStart="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tue May 11 11:45"
+                    android:layout_alignParentStart="true"
+                    android:textColor="#000000"/>
+
+            <TextView
+                android:id="@+id/pickupLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentStart="true"
+                android:drawableLeft="@drawable/circlebtn"
+                android:text="Maharani Bagh"/>
+
+            <TextView
+                android:id="@+id/dropLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/locationdrop"
+                android:text="Anand Vihar"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:id="@+id/fare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="#000000"
+                    android:text="Rs. 14.10"/>
+
+                <TextView
+                    android:id="@+id/rideType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:text="Micro"/>
+
+                <TextView
+                    android:id="@+id/carNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="15sp"
+                    android:text="DL3S CC"/>
+                <TextView
+                    android:id="@+id/carNumber2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:text="4533"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
