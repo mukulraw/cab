@@ -485,10 +485,10 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
                                             image.setImageBitmap(result);
 
-                                            final Marker mar = map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1))))
-                                                    .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(pin)));
+                                            map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1)))
+                                                    .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(pin))));
 
-                                            markers.put(mar.getId() , item);
+                                            //markers.put(mar.getId() , item);
 
 
                                         }catch (NullPointerException e1)
