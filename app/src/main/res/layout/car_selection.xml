@@ -30,128 +30,13 @@
             android:layout_marginStart="10dp"
             android:background="#c2c2c2" />
 
-        <LinearLayout
+
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:id="@+id/cab_type_list"
+            />
 
-            <LinearLayout
-                android:id="@+id/miniLin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10 min"
-                    android:textSize="11dp"/>
-
-
-                <ImageView
-                    android:id="@+id/mini"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/minisvg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Mini"
-                    android:textSize="10dp"
-                    />
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#c2c2c2" />
-
-            <LinearLayout
-                android:id="@+id/microLin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5 min"
-                    android:textSize="10dp"/>
-
-
-                <ImageView
-                    android:id="@+id/micro"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/microsvg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Micro"
-                    android:textSize="10dp"/>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#c2c2c2" />
-
-            <LinearLayout
-                android:id="@+id/sedanLin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6 min"
-                    android:textSize="10dp"/>
-
-
-                <ImageView
-                    android:id="@+id/sedan"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/sedansvg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Sedan"
-                    android:textSize="10dp"/>
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
 
     </LinearLayout>
 

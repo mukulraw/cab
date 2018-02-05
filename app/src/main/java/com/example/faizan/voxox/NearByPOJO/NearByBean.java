@@ -19,7 +19,7 @@ public class NearByBean {
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
-    @SerializedName("estimated")
+    @SerializedName("estimatedTime")
     @Expose
     private List<Estimated> estimated = null;
 
