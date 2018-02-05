@@ -8,8 +8,8 @@
 
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:id="@+id/marker_image"
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"

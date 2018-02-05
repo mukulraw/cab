@@ -500,9 +500,9 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                                     }
                                 });
 
-                                map.addMarker(new MarkerOptions()
+                                /*map.addMarker(new MarkerOptions()
                                         .position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1)))
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));*/
                                 //builder.include(driver1);
 
                             }
@@ -557,6 +557,31 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
         }
 
 
+    }
+
+
+    public static Bitmap getViewBitmap(View view)
+    {
+        //Get the dimensions of the view so we can re-layout the view at its current size
+        //and create a bitmap of the same size
+        int width = view.getWidth();
+        int height = view.getHeight();
+
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+
+        //Cause the view to re-layout
+        view.measure(measuredWidth, measuredHeight);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        //Create a bitmap backed Canvas to draw the view into
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+
+        //Now that the view is laid out and we have a canvas, ask the view to draw itself into the canvas
+        view.draw(c);
+
+        return b;
     }
 
 
