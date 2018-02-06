@@ -35,10 +35,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.faizan.voxox.EstimatedFarePOJO.EstimatedBean;
 import com.example.faizan.voxox.EstimatedTimePOJO.TimeBean;
 import com.example.faizan.voxox.NearByPOJO.Estimated;
 import com.example.faizan.voxox.NearByPOJO.NearByBean;
@@ -89,6 +91,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.CAMERA_SERVICE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.facebook.FacebookSdk.getOnProgressThreshold;
 import static com.facebook.FacebookSdk.isDebugEnabled;
@@ -121,6 +124,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
     private int PLACE_PICKER_REQUEST = 1;
     private int PLACE_PICKER_REQUEST2 = 2;
 
+    String filterId = "0";
 
     String TAG = "TAG:VOXOX";
 
@@ -137,6 +141,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
     String userId;
 
+    String estPrice;
 
     Location currentLocation;
     Location pickUpLocation;
@@ -146,6 +151,10 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
     String pickUpLat = "";
     String pickUpLng = "";
 
+    String dropLat = "";
+    String dropLng = "";
+
+    TextView price;
 
     GoogleApiClient googleApiClient;
     private int PLAY_SERVICES_REQUEST = 32;
@@ -153,6 +162,9 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
 
     CabAdapter adapter;
+
+
+    ProgressBar progress;
 
 
     @Override
@@ -181,6 +193,10 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
         backToType = (ImageButton) view.findViewById(R.id.back_to_type);
 
+        price = (TextView)view.findViewById(R.id.price);
+
+        progress = (ProgressBar)view.findViewById(R.id.progress);
+
         searchBarMain = (RelativeLayout) view.findViewById(R.id.searchBarMain);
         carLayout = (RelativeLayout) view.findViewById(R.id.carLayout);
         cabConfirm = (LinearLayout) view.findViewById(R.id.cabConfirm);
@@ -202,14 +218,14 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
             @Override
             public void onClick(View v) {
 
-                if (pickUpLocation == null) {
+                if (pickUpLat.length() == 0) {
                     CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).zoom(14.0f).build();
 
 
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
                     map.animateCamera(cameraUpdate);
                 } else {
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(pickUpLocation.getLatitude(), pickUpLocation.getLongitude())).zoom(14.0f).build();
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(Double.parseDouble(pickUpLat), Double.parseDouble(pickUpLng))).zoom(14.0f).build();
 
 
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
@@ -288,7 +304,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
 
         // searchBarTv = (TextView) view.findViewById(R.id.sbt1);
-/*        searchBar1.setOnClickListener(new View.OnClickListener() {
+        searchBar1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -299,7 +315,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                 }
 
             }
-        });*/
+        });
 
         searchBar2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,15 +373,92 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
         continuebtnfirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                carLayout.setVisibility(View.VISIBLE);
-                searchBarMain.setVisibility(View.GONE);
 
 
-                searchBar1.setClickable(false);
-                searchBar2.setClickable(false);
 
-                searchBar1.setFocusable(false);
-                searchBar2.setFocusable(false);
+                if (dropLat.length() > 0 && dropLng.length() > 0)
+                {
+                    carLayout.setVisibility(View.VISIBLE);
+                    searchBarMain.setVisibility(View.GONE);
+
+                    searchBar1.setClickable(false);
+                    searchBar2.setClickable(false);
+
+                    searchBar1.setFocusable(false);
+                    searchBar2.setFocusable(false);
+
+
+                    nearbyCall.cancel();
+
+                    Log.d("pickuplat" , pickUpLat);
+                    Log.d("pickuplng" , pickUpLng);
+
+                    Log.d("dropLat" , dropLat);
+                    Log.d("dropLng" , dropLng);
+
+                    Log.d("cabType" , selectedId);
+
+                    Log.d("userId" , userId);
+
+
+                    progress.setVisibility(View.VISIBLE);
+
+
+                    final Bean b = (Bean) getContext().getApplicationContext();
+
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseURL)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    Allapi cr = retrofit.create(Allapi.class);
+
+                    Call<EstimatedBean> call = cr.getEstimatedFare(userId , pickUpLat , pickUpLng , dropLat , dropLng , selectedId);
+
+                    call.enqueue(new Callback<EstimatedBean>() {
+                        @Override
+                        public void onResponse(Call<EstimatedBean> call, Response<EstimatedBean> response) {
+
+
+
+                            price.setText("INR " + String.valueOf(response.body().getData().getEstimated().get(0).getPrice()));
+
+                            estPrice = String.valueOf(response.body().getData().getEstimated().get(0).getPrice());
+
+
+
+                            progress.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(Call<EstimatedBean> call, Throwable t) {
+
+                            progress.setVisibility(View.GONE);
+
+                        }
+                    });
+
+
+
+                }
+                else
+                {
+                    Toast.makeText(getContext() , "Invalid Drop Location" , Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             }
@@ -375,8 +468,43 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
             @Override
             public void onClick(View view) {
 
-                carLayout.setVisibility(View.GONE);
-                confirmLayout.setVisibility(View.VISIBLE);
+
+                progress.setVisibility(View.VISIBLE);
+
+
+                final Bean b = (Bean) getContext().getApplicationContext();
+
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseURL)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Allapi cr = retrofit.create(Allapi.class);
+
+                Call<EstimatedBean> call = cr.confirm(userId , pickUpLat , pickUpLng , dropLat , dropLng , selectedId , estPrice , "cash");
+
+                call.enqueue(new Callback<EstimatedBean>() {
+                    @Override
+                    public void onResponse(Call<EstimatedBean> call, Response<EstimatedBean> response) {
+
+
+                        carLayout.setVisibility(View.GONE);
+                        confirmLayout.setVisibility(View.VISIBLE);
+
+
+                        progress.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<EstimatedBean> call, Throwable t) {
+
+                        progress.setVisibility(View.GONE);
+
+                    }
+                });
+
+
 
             }
         });
@@ -453,13 +581,13 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                             map.clear();
 
 
-                            if (pickUpLocation == null) {
+                            if (pickUpLat.length() == 0) {
                                 map.addMarker(new MarkerOptions()
                                         .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
                                         .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pin)));
                             } else {
                                 map.addMarker(new MarkerOptions()
-                                        .position(new LatLng(pickUpLocation.getLatitude(), pickUpLocation.getLongitude()))
+                                        .position(new LatLng(Double.parseDouble(pickUpLat), Double.parseDouble(pickUpLng)))
                                         .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pin)));
                             }
 
@@ -525,7 +653,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                     }
 
 
-                    if (pickUpLocation == null) {
+                    if (pickUpLat.length() == 0) {
                         getNearbyData(pickUpLat, pickUpLng);
                     } else {
                         getNearbyData(pickUpLat, pickUpLng);
@@ -652,8 +780,16 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                 String longitude = String.valueOf(place.getLatLng().longitude);
                 String address = String.format("%s", place.getAddress());
                 stBuilder.append(address);
+
+
+
+                pickUpLat = String.valueOf(place.getLatLng().latitude);
+                pickUpLng = String.valueOf(place.getLatLng().longitude);
+
+
+
                 searchBar1.setText(stBuilder.toString());
-                placeMarkerOnMap(place.getLatLng());
+                //placeMarkerOnMap(place.getLatLng());
 
 
             }
@@ -665,13 +801,25 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                 String latitude = String.valueOf(place2.getLatLng().latitude);
                 String longitude = String.valueOf(place2.getLatLng().longitude);
 
+                dropLat = String.valueOf(place2.getLatLng().latitude);
+                dropLng = String.valueOf(place2.getLatLng().longitude);
+
+                if (pickUpLat.length() > 0 && pickUpLng.length() > 0)
+                {
+
+
+
+
+
+                }
+
                 //Log.d("dropLat", latitude);
                 //Log.d("dropLat", longitude);
                 String address2 = String.format("%s", place2.getAddress());
                 //Log.d("Dest", "lisa");
                 stBuilder2.append(address2);
                 searchBar2.setText(stBuilder2.toString());
-                placeMarkerOnMap2(place2.getLatLng());
+                //placeMarkerOnMap2(place2.getLatLng());
             }
         }
     }
@@ -731,7 +879,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
 
-        if (pickUpLocation == null) {
+        if (pickUpLat.length() == 0) {
             pickUpLat = String.valueOf(currentLocation.getLatitude());
             pickUpLng = String.valueOf(currentLocation.getLongitude());
 
@@ -814,6 +962,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
             {
                 holder.icon.setBackgroundResource(R.drawable.backcar);
                 selectedId = item.getTypeId();
+                filterId = item.getTypeId();
             }
             else
             {
@@ -824,7 +973,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
             //if (cabList.size() > cabCount)
             //{
 
-            Log.d("asdasd", "asasd");
+            //Log.d("asdasd", "asasd");
 
             holder.type.setText(item.getCabType());
 
@@ -844,6 +993,9 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
                     cabPosition = position;
                     selectedId = item.getTypeId();
+
+                    filterId = item.getTypeId();
+
                     notifyDataSetChanged();
 
                 }

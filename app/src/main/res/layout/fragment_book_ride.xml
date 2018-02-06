@@ -171,7 +171,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rs.280"
+                                android:id="@+id/price"
                                 android:textColor="#000000" />
 
                             <TextView
@@ -265,6 +265,15 @@
 
 
     </RelativeLayout>
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress"
+        android:visibility="gone"
+        />
 
 
 </RelativeLayout>

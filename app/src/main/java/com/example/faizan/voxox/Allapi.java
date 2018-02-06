@@ -2,6 +2,7 @@ package com.example.faizan.voxox;
 
 
 
+import com.example.faizan.voxox.EstimatedFarePOJO.EstimatedBean;
 import com.example.faizan.voxox.EstimatedTimePOJO.TimeBean;
 import com.example.faizan.voxox.NearByPOJO.NearByBean;
 import com.example.faizan.voxox.SignInPOJO.SignInBean;
@@ -69,7 +70,30 @@ public interface Allapi {
             @Part("pickupLat") String mp,
             @Part("pickupLong") String mn,
             @Part("cabType") String m
+    );
 
+    @Multipart
+    @POST("cab/api/estimateFare.php")
+    Call<EstimatedBean> getEstimatedFare(
+            @Part("userId") String userid,
+            @Part("pickupLat") String pickuplat,
+            @Part("pickupLong") String pickuplong,
+            @Part("dropLat") String droplat,
+            @Part("dropLong") String droplong,
+            @Part("cabType") String cabtype
+    );
+
+    @Multipart
+    @POST("cab/api/bookingConfirm.php")
+    Call<EstimatedBean> confirm(
+            @Part("userId") String userid,
+            @Part("pickupLat") String pickuplat,
+            @Part("pickupLong") String pickuplong,
+            @Part("dropLat") String droplat,
+            @Part("dropLong") String droplong,
+            @Part("cabType") String cabtype,
+            @Part("estimatedPrice") String estimatedPrice,
+            @Part("paymentMode") String paymentMode
     );
 
 }
