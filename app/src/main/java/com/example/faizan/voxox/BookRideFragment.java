@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -71,12 +72,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +101,7 @@ import static com.facebook.FacebookSdk.getOnProgressThreshold;
 import static com.facebook.FacebookSdk.isDebugEnabled;
 
 
-public class BookRideFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class BookRideFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DirectionFinderListener {
 
     TextView cancel, searchBar1, searchBarTv, searchBar2;
 
@@ -109,6 +113,14 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
     RecyclerView cabTypeList;
 
     LinearLayoutManager manager;
+
+
+
+    private List<Marker> originMarkers = new ArrayList<>();
+    private List<Marker> destinationMarkers = new ArrayList<>();
+    private List<Polyline> polylinePaths = new ArrayList<>();
+
+
 
     List<Estimated> cabList;
 
@@ -552,137 +564,152 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
     private void getNearbyData(final String latitude, final String longitude) {
 
-        try {
-            final Bean b = (Bean) getContext().getApplicationContext();
 
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(b.baseURL)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            Allapi cr = retrofit.create(Allapi.class);
+        if (dropLat.length() == 0 && dropLng.length() == 0)
+        {
+            try {
+                final Bean b = (Bean) getContext().getApplicationContext();
 
 
-            nearbyCall = cr.nearBy(userId, latitude, longitude);
-
-            nearbyCall.enqueue(new Callback<NearByBean>() {
-                @Override
-                public void onResponse(Call<NearByBean> call, Response<NearByBean> response) {
-
-                    try {
-                        if (Objects.equals(response.body().getStatus(), "1")) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseURL)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Allapi cr = retrofit.create(Allapi.class);
 
 
-                            //Log.d("messasd", response.body().getMessage());
-                            //Log.d("driver", response.body().getData().get(1).getLatitude());
-                            //builder = new LatLngBounds.Builder();
+                nearbyCall = cr.nearBy(userId, latitude, longitude);
 
-                            map.clear();
+                nearbyCall.enqueue(new Callback<NearByBean>() {
+                    @Override
+                    public void onResponse(Call<NearByBean> call, Response<NearByBean> response) {
 
-
-                            if (pickUpLat.length() == 0) {
-                                map.addMarker(new MarkerOptions()
-                                        .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-                                        .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pin)));
-                            } else {
-                                map.addMarker(new MarkerOptions()
-                                        .position(new LatLng(Double.parseDouble(pickUpLat), Double.parseDouble(pickUpLng)))
-                                        .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pin)));
-                            }
-
-                            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                            for (int i = 0; i < response.body().getData().size(); i++) {
-
-                                final String lat1 = response.body().getData().get(i).getLatitude();
-                                final String lon1 = response.body().getData().get(i).getLongitude();
-                                LatLng driver1 = new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1));
+                        try {
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
 
-                                final View pin = inflater.inflate(R.layout.marker , null);
-                                pin.layout(0 , 0 , 100 , 100);
+                                //Log.d("messasd", response.body().getMessage());
+                                //Log.d("driver", response.body().getData().get(1).getLatitude());
+                                //builder = new LatLngBounds.Builder();
 
-                                final ImageView image = (ImageView) pin.findViewById(R.id.marker_image);
-
-                                Ion.with(getContext()).load(response.body().getData().get(i).getIconImage()).withBitmap().asBitmap().setCallback(new FutureCallback<Bitmap>() {
-                                    @Override
-                                    public void onCompleted(Exception e, Bitmap result) {
-
-                                        try {
-
-                                            image.setImageBitmap(result);
-
-                                            map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1)))
-                                                    .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(pin))));
-
-                                            //markers.put(mar.getId() , item);
+                                map.clear();
 
 
-                                        }catch (NullPointerException e1)
-                                        {
-                                            e1.printStackTrace();
+                                if (pickUpLat.length() == 0) {
+                                    Marker marker = map.addMarker(new MarkerOptions()
+                                            .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
+                                            .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pingreen)));
+
+                                    marker.showInfoWindow();
+
+
+                                } else {
+                                    Marker marker = map.addMarker(new MarkerOptions()
+                                            .position(new LatLng(Double.parseDouble(pickUpLat), Double.parseDouble(pickUpLng)))
+                                            .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pingreen)));
+
+                                    marker.showInfoWindow();
+                                }
+
+                                LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                                for (int i = 0; i < response.body().getData().size(); i++) {
+
+                                    final String lat1 = response.body().getData().get(i).getLatitude();
+                                    final String lon1 = response.body().getData().get(i).getLongitude();
+                                    LatLng driver1 = new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1));
+
+
+                                    final View pin = inflater.inflate(R.layout.marker , null);
+                                    pin.layout(0 , 0 , 100 , 100);
+
+                                    final ImageView image = (ImageView) pin.findViewById(R.id.marker_image);
+
+                                    Ion.with(getContext()).load(response.body().getData().get(i).getIconImage()).withBitmap().asBitmap().setCallback(new FutureCallback<Bitmap>() {
+                                        @Override
+                                        public void onCompleted(Exception e, Bitmap result) {
+
+                                            try {
+
+                                                image.setImageBitmap(result);
+
+                                                map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1)))
+                                                        .icon(BitmapDescriptorFactory.fromBitmap(getViewBitmap(pin))));
+
+                                                //markers.put(mar.getId() , item);
+
+
+                                            }catch (NullPointerException e1)
+                                            {
+                                                e1.printStackTrace();
+                                            }
+
+
                                         }
-
-
-                                    }
-                                });
+                                    });
 
                                 /*map.addMarker(new MarkerOptions()
                                         .position(new LatLng(Double.parseDouble(lat1), Double.parseDouble(lon1)))
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.taxi)));*/
-                                //builder.include(driver1);
+                                    //builder.include(driver1);
 
+                                }
+
+
+                                //bounds = builder.build();
+                                //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 250);
+                                //map.animateCamera(cu);
+
+
+                                //Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                            } else {
+                                //Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                //Log.d("msg", response.body().getMessage());
                             }
-
-
-                            //bounds = builder.build();
-                            //CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 250);
-                            //map.animateCamera(cu);
-
-
-                            //Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                        } else {
-                            //Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            //Log.d("msg", response.body().getMessage());
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+
+                        if (pickUpLat.length() == 0) {
+                            getNearbyData(pickUpLat, pickUpLng);
+                        } else {
+                            getNearbyData(pickUpLat, pickUpLng);
+                        }
+
+
+                        //Log.d("cabData" , String.valueOf(response.body().getEstimated().size()));
+
+                        //cabCount = response.body().getEstimated().size();
+
+                        adapter.setGridData(response.body().getEstimated());
+
+                        //cabCount = response.body().getEstimated().size();
+
                     }
 
 
-                    if (pickUpLat.length() == 0) {
-                        getNearbyData(pickUpLat, pickUpLng);
-                    } else {
-                        getNearbyData(pickUpLat, pickUpLng);
+                    @Override
+                    public void onFailure(Call<NearByBean> call, Throwable t) {
+
+                        nearbyCall.clone().enqueue(this);
+
+                        t.printStackTrace();
+
                     }
-
-
-                    //Log.d("cabData" , String.valueOf(response.body().getEstimated().size()));
-
-                    //cabCount = response.body().getEstimated().size();
-
-                    adapter.setGridData(response.body().getEstimated());
-
-                    //cabCount = response.body().getEstimated().size();
-
-                }
-
-
-                @Override
-                public void onFailure(Call<NearByBean> call, Throwable t) {
-
-                    nearbyCall.clone().enqueue(this);
-
-                    t.printStackTrace();
-
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+
+
+
 
 
     }
@@ -714,7 +741,7 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
 
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.pin);
+        Drawable background = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
         //Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
         //vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
@@ -808,7 +835,11 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
                 {
 
 
-
+                    try {
+                        new DirectionFinder(this, pickUpLat , pickUpLng, dropLat , dropLng).execute();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
 
 
                 }
@@ -922,6 +953,74 @@ public class BookRideFragment extends Fragment implements OnMapReadyCallback, Go
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+    }
+
+    @Override
+    public void onDirectionFinderStart() {
+        if (originMarkers != null) {
+            for (Marker marker : originMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (destinationMarkers != null) {
+            for (Marker marker : destinationMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (polylinePaths != null) {
+            for (Polyline polyline:polylinePaths ) {
+                polyline.remove();
+            }
+        }
+    }
+
+    @Override
+    public void onDirectionFinderSuccess(List<Route> routes) {
+        polylinePaths = new ArrayList<>();
+        originMarkers = new ArrayList<>();
+        destinationMarkers = new ArrayList<>();
+
+        map.clear();
+
+        for (Route route : routes) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
+            //((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
+            //((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
+
+            Marker marker1 = map.addMarker(new MarkerOptions()
+                    .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pingreen))
+                    .title(route.startAddress)
+                    .position(route.startLocation));
+
+            originMarkers.add(marker1);
+
+            marker1.showInfoWindow();
+
+
+
+            Marker marker2 = map.addMarker(new MarkerOptions()
+                    .icon(bitmapDescriptorFromVector(getContext(), R.drawable.pinred))
+                    .title(route.endAddress)
+                    .position(route.endLocation));
+
+
+            destinationMarkers.add(marker2);
+
+            marker2.showInfoWindow();
+
+
+            PolylineOptions polylineOptions = new PolylineOptions().
+                    geodesic(true).
+                    color(Color.BLACK).
+                    width(10);
+
+            for (int i = 0; i < route.points.size(); i++)
+                polylineOptions.add(route.points.get(i));
+
+            polylinePaths.add(map.addPolyline(polylineOptions));
+        }
     }
 
 

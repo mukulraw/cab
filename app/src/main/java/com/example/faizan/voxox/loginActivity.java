@@ -80,6 +80,7 @@ public class loginActivity extends AppCompatActivity {
                             name = object.getString("name");
                             Log.d("fbname", name);
                             Log.d("fbemail", email);
+                            Log.d("fbid", pid);
 
 
 
